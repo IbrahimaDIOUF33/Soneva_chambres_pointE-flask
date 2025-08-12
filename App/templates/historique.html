@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Historique des occupations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}">🏠 Accueil</a>
+        <a href="{{ url_for('historique') }}">📜 Historique</a>
+    </nav>
+
+    <h1>📜 Historique des chambres</h1>
+
+    {% if historiques %}
+    <table>
+        <thead>
+            <tr>
+                <th>Chambre</th>
+                <th>Client</th>
+                <th>Adresse</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Tarif</th>
+                <th>Identité</th>
+                <th>Agent</th>
+                <th>Observations</th>
+                <th>Date enreg.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in historiques %}
+            <tr>
+                <td>{{ h.chambre_numero }}</td>
+                <td>{{ h.client or '—' }}</td>
+                <td>{{ h.adresse or '—' }}</td>
+                <td>{{ h.datetime_debut or '—' }}</td>
+                <td>{{ h.datetime_fin or '—' }}</td>
+                <td>{{ h.tarif or '—' }}</td>
+                <td>{{ h.identite or '—' }}</td>
+                <td>{{ h.agent or '—' }}</td>
+                <td>{{ h.observations or '—' }}</td>
+                <td>{{ h.date_enregistrement.strftime('%d/%m/%Y %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Aucun enregistrement pour le moment.</p>
+    {% endif %}
+</body>
+</html>

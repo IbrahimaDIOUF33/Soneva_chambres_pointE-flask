@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réserver la chambre {{ chambre.numero }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <meta name="theme-color" content="#008080">
+
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container textarea,
+        .form-container button {
+            font-size: 1.05em;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: #008080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #006666;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1.05em;
+            }
+
+            .form-container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Réservation - Chambre {{ chambre.numero }}</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li style="color:red;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <div class="form-container">
+        <form method="POST">
+            <label for="client">Nom du client :</label>
+            <input type="text" name="client" id="client" value="{{ chambre.client or '' }}" required>
+
+            <label for="datetime_debut">Date et heure d’entrée :</label>
+            <input type="datetime-local" name="datetime_debut" id="datetime_debut" 
+                   value="{{ chambre.datetime_debut|replace(' ', 'T') if chambre.datetime_debut else '' }}" required>
+
+            <label for="datetime_fin">Date et heure de sortie :</label>
+            <input type="datetime-local" name="datetime_fin" id="datetime_fin" 
+                   value="{{ chambre.datetime_fin|replace(' ', 'T') if chambre.datetime_fin else '' }}" required>
+
+            <label for="etat">État :</label>
+            <select name="etat" id="etat">
+                <option value="occupee" {% if chambre.etat == 'occupee' %}selected{% endif %}>Occupée</option>
+                <option value="reservee" {% if chambre.etat == 'reservee' %}selected{% endif %}>Réservée</option>
+            </select>
+
+            <label for="tarif">Tarif payé :</label>
+            <input type="number" name="tarif" id="tarif" value="{{ chambre.tarif or '' }}" required>
+
+            <label for="identite">N° pièce d'identité :</label>
+            <input type="text" name="identite" id="identite" value="{{ chambre.identite or '' }}">
+
+            <label for="adresse">Adresse (ville) :</label>
+            <input type="text" name="adresse" id="adresse" value="{{ chambre.adresse or '' }}">
+                    
+            <label for="agent">Agent :</label>
+            <select name="agent" id="agent" required>
+                <option value="">-- Sélectionnez --</option>
+                <option value="Adiouma" {% if chambre.agent == 'Adiouma' %}selected{% endif %}>Adiouma</option>
+                <option value="Aliou" {% if chambre.agent == 'Aliou' %}selected{% endif %}>Aliou</option>
+                <option value="Mariama" {% if chambre.agent == 'Mariama' %}selected{% endif %}>Mariama</option>
+                <option value="Ibrahima" {% if chambre.agent == 'Ibrahima' %}selected{% endif %}>Ibrahima</option>
+            </select>
+
+            <label for="observations">Observations :</label>
+            <textarea name="observations" id="observations" rows="3">{{ chambre.observations or '' }}</textarea>
+
+            <button type="submit">Enregistrer</button>
+            <a href="{{ url_for('index') }}" style="display:inline-block;padding:10px 20px;background:#ccc;color:#000;text-align:center;border-radius:4px;text-decoration:none;">Annuler</a>
+        </form>
+    </div>
+</body>
+</html>

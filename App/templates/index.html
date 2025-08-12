@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des chambres</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <meta name="theme-color" content="#008080">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}">🏠 Accueil</a>
+        <a href="{{ url_for('historique') }}">📜 Historique</a>
+    </nav>
+
+    <h1>Chambres</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li style="color: {% if '✅' in message %}green{% else %}red{% endif %};">
+            {{ message }}
+          </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <table>
+        <tr>
+            <th>Numéro</th>
+            <th>État</th>
+            <th>Actions</th>
+            <th class="desktop-only">Client</th>
+            <th class="desktop-only">Début</th>
+            <th class="desktop-only">Fin</th>
+            <th class="desktop-only">Tarif</th>
+            <th class="desktop-only">Identité</th>
+            <th class="desktop-only">Adresse</th>
+
+        </tr>
+        {% for chambre in chambres %}
+        <tr style="background-color: {{ chambre.status_color }};">
+            <td>{{ chambre.numero }}</td>
+            <td>{{ chambre.etat_libelle }}</td>
+            <td class="actions">
+                <div class="form-rapide">
+                    {% if chambre.etat == 'libre' %}
+                    <div class="form-block">
+                        <a href="{{ url_for('reserver', id=chambre.id) }}" class="action-button" style="width: 100%;">Réserver</a>
+                    </div>
+                    {% else %}
+                    <div class="action-row full-width">
+                        <button class="action-button" style="margin-right:auto;" onclick="afficherDetails({{ chambre.id }})">Détails</button>
+                        <form method="POST" action="{{ url_for('liberer', id=chambre.id) }}">
+                            <button type="submit" class="action-button liberer-button" style="margin-left:auto;" onclick="return confirm('Libérer cette chambre ?')">Libérer</button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    {% if chambre.temps_restant %}
+                    <div class="temps">⏳ {{ chambre.temps_restant }} restantes</div>
+                    {% endif %}
+
+                    {% if chambre.depassé %}
+                    <div class="depasser">⚠️ Dépassé</div>
+                    {% endif %}
+                </div>
+            </td>
+            <td class="desktop-only">{{ chambre.client or '—' }}</td>
+            <td class="desktop-only">{{ chambre.debut_affichage }}</td>
+            <td class="desktop-only">{{ chambre.fin_affichage }}</td>
+            <td class="desktop-only">{{ chambre.tarif or '—' }}</td>
+            <td class="desktop-only">{{ chambre.identite or '—' }}</td>
+            <td class="desktop-only">{{ chambre.adresse or '—' }}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% for chambre in chambres %}
+    <div class="modal-carte" id="modal-{{ chambre.id }}">
+        <div class="modal-content">
+            <h2>Chambre {{ chambre.numero }}</h2>
+            <table class="carte-table">
+                <tr><td><strong>État :</strong></td><td>{{ chambre.etat_libelle }}</td></tr>
+                <tr><td><strong>Client :</strong></td><td>{{ chambre.client or '—' }}</td></tr>
+                <tr><td><strong>Début :</strong></td><td>{{ chambre.debut_affichage }}</td></tr>
+                <tr><td><strong>Fin :</strong></td><td>{{ chambre.fin_affichage }}</td></tr>
+                <tr><td><strong>Tarif :</strong></td><td>{{ chambre.tarif or '—' }}</td></tr>
+                <tr><td><strong>Identité :</strong></td><td>{{ chambre.identite or '—' }}</td></tr>
+                <tr><td><strong>Adresse :</strong></td><td>{{ chambre.adresse or '—' }}</td></tr>
+                <tr><td><strong>Agent :</strong></td><td>{{ chambre.agent or '—' }}</td></tr>
+                <tr><td><strong>Observations :</strong></td><td>{{ chambre.observations or '—' }}</td></tr>
+            </table>
+            <div style="margin-top: 10px;">
+                <a href="{{ url_for('reserver', id=chambre.id) }}"><button class="action-button">Modifier</button></a>
+                <button onclick="fermerDetails({{ chambre.id }})" class="action-button">Retour</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function afficherDetails(id) {
+            document.getElementById("modal-" + id).style.display = "block";
+        }
+        function fermerDetails(id) {
+            document.getElementById("modal-" + id).style.display = "none";
+        }
+        setInterval(function() {
+            window.location.reload();
+        }, 120000);
+    </script>
+</body>
+<!-- Force update Render -->
+</html>
