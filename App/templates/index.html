@@ -10,12 +10,12 @@
     <meta name="theme-color" content="#800000">  <!-- 🍷 Bordeaux pour Point E -->
 </head>
 <body>
-    <div style="font-weight:600; color:#800000; padding: 10px;">Résidence : Point E</div>
     <nav class="navbar">
         <a href="{{ url_for('index') }}">🏠 Accueil</a>
         <a href="{{ url_for('historique') }}">📜 Historique</a>
     </nav>
 
+    <div class="residence-badge">Résidence : Point E</div>
     <h1>Chambres Point E</h1>
 
     {% with messages = get_flashed_messages() %}

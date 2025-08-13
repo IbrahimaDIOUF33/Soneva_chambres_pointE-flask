@@ -23,6 +23,13 @@ body {
     text-decoration: underline;
 }
 
+.residence-badge {
+    font-weight: 600;
+    color: #800000;          /* Couleur bordeaux */
+    font-size: 1rem;         /* Taille raisonnable (modifiable) */
+    margin: 0.5em 0 0.5em 1em;
+}
+
 
 table {
     width: 100%;
