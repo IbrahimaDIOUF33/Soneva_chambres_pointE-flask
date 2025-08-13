@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <meta name="theme-color" content="#008080">
-
+    <meta name="theme-color" content="#800000"> <!-- Bordeaux -->
     <style>
         .form-container {
             max-width: 500px;
@@ -33,7 +32,7 @@
         }
 
         .form-container button {
-            background-color: #008080;
+            background-color: #800000;  /* Bordeaux */
             color: white;
             border: none;
             border-radius: 4px;
@@ -41,7 +40,7 @@
         }
 
         .form-container button:hover {
-            background-color: #006666;
+            background-color: #660000;
         }
 
         @media (max-width: 600px) {
@@ -53,6 +52,22 @@
                 padding: 0 15px;
             }
         }
+
+        .cancel-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ddd;
+            color: #333;
+            border: 1px solid #999;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .cancel-button:hover {
+            background-color: #ccc;
+        }
+
     </style>
 </head>
 <body>
@@ -101,6 +116,7 @@
                 <option value="">-- Sélectionnez --</option>
                 <option value="Adiouma" {% if chambre.agent == 'Adiouma' %}selected{% endif %}>Adiouma</option>
                 <option value="Aliou" {% if chambre.agent == 'Aliou' %}selected{% endif %}>Aliou</option>
+                <option value="Moussa" {% if chambre.agent == 'Moussa' %}selected{% endif %}>Moussa</option>
                 <option value="Mariama" {% if chambre.agent == 'Mariama' %}selected{% endif %}>Mariama</option>
                 <option value="Ibrahima" {% if chambre.agent == 'Ibrahima' %}selected{% endif %}>Ibrahima</option>
             </select>
@@ -109,7 +125,7 @@
             <textarea name="observations" id="observations" rows="3">{{ chambre.observations or '' }}</textarea>
 
             <button type="submit">Enregistrer</button>
-            <a href="{{ url_for('index') }}" style="display:inline-block;padding:10px 20px;background:#ccc;color:#000;text-align:center;border-radius:4px;text-decoration:none;">Annuler</a>
+            <a href="{{ url_for('index') }}" class="cancel-button">Annuler</a>
         </form>
     </div>
 </body>
