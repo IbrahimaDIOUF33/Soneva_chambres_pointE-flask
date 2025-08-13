@@ -30,6 +30,12 @@ body {
     margin: 0.5em 0 0.5em 1em;
 }
 
+h1, h2, h3 {
+    color: #800000; /* Bordeaux */
+    font-size: 1.4em;       /* ou 22px */
+    margin: 0.5em 0;
+}
+
 
 table {
     width: 100%;
@@ -109,8 +115,9 @@ th {
     background-color: #006666;
 }
 
+
 .action-button {
-    background-color: #008080;
+    background-color: #800000; /* bordeaux */
     color: white;
     border: none;
     border-radius: 4px;
@@ -123,13 +130,15 @@ th {
     box-sizing: border-box;
 }
 
+.action-button:hover {
+    background-color: #660000; /* bordeaux foncé au survol */
+}
+
+
 .action-button.liberer-button {
     background-color: #aa3333;
 }
 
-.action-button:hover {
-    background-color: #006666;
-}
 
 .actions {
     display: flex;
