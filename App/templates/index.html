@@ -2,20 +2,21 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des chambres</title>
+    <title>Liste des chambres Point E</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
-    <meta name="theme-color" content="#008080">
+    <meta name="theme-color" content="#800000">  <!-- 🍷 Bordeaux pour Point E -->
 </head>
 <body>
+    <div style="font-weight:600; color:#800000; padding: 10px;">Résidence : Point E</div>
     <nav class="navbar">
         <a href="{{ url_for('index') }}">🏠 Accueil</a>
         <a href="{{ url_for('historique') }}">📜 Historique</a>
     </nav>
 
-    <h1>Chambres</h1>
+    <h1>Chambres Point E</h1>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}

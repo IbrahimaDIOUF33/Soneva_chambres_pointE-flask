@@ -1,10 +1,10 @@
 {
-  "name": "Chambres",
-  "short_name": "Chambres",
+  "name": "Chambres Point E",
+  "short_name": "Point E",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#008080",
+  "theme_color": "#800000",
   "orientation": "portrait",
   "icons": [
     {
