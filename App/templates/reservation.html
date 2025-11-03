@@ -114,11 +114,14 @@
             <label for="agent">Agent :</label>
             <select name="agent" id="agent" required>
                 <option value="">-- Sélectionnez --</option>
-                <option value="Adiouma" {% if chambre.agent == 'Adiouma' %}selected{% endif %}>Adiouma</option>
-                <option value="Aliou" {% if chambre.agent == 'Aliou' %}selected{% endif %}>Aliou</option>
-                <option value="Moussa" {% if chambre.agent == 'Moussa' %}selected{% endif %}>Moussa</option>
-                <option value="Mariama" {% if chambre.agent == 'Mariama' %}selected{% endif %}>Mariama</option>
+                <option value="Adiouma DIOUF" {% if chambre.agent == 'Adiouma DIOUF' %}selected{% endif %}>Adiouma DIOUF</option>
+                <option value="Aliou DIOUF" {% if chambre.agent == 'Aliou DIOUF' %}selected{% endif %}>Aliou DIOUF </option>
+                <option value="Saliou DIOUF" {% if chambre.agent == 'Saliou DIOUF' %}selected{% endif %}>Saliou DIOUF</option>
+                <option value="Moussa Ndiaye" {% if chambre.agent == 'Moussa Ndiaye' %}selected{% endif %}>Moussa Ndiaye</option>
                 <option value="Ibrahima" {% if chambre.agent == 'Ibrahima' %}selected{% endif %}>Ibrahima</option>
+                <option value="Mariama" {% if chambre.agent == 'Mariama' %}selected{% endif %}>Mariama</option>
+                <option value="Aissatou PAYE" {% if chambre.agent == 'Aissatou PAYE' %}selected{% endif %}>Aissatou PAYE</option>
+                <option value="Khady Sy" {% if chambre.agent == 'Fatou' %}selected{% endif %}>Fatou</option>
             </select>
 
             <label for="observations">Observations :</label>
