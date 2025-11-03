@@ -1,8 +1,32 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, Response, render_template, request, redirect, url_for, flash
 import psycopg2
 import psycopg2.extras
 import os
 from datetime import datetime
+
+
+
+# Authentification basique
+def check_auth(username, password):
+    return username == os.getenv("APP_USERNAME") and password == os.getenv("APP_PASSWORD")
+
+def authenticate():
+    return Response(
+        'Accès refusé.\n'
+        'Veuillez fournir un nom d’utilisateur et un mot de passe.', 401,
+        {'WWW-Authenticate': 'Basic realm="Accès restreint"'})
+
+def requires_auth(f):
+    from functools import wraps
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
@@ -111,6 +135,7 @@ def get_chambres():
     return chambres
 
 @app.route('/')
+@requires_auth
 def index():
     chambres = get_chambres()
     return render_template('index.html', chambres=chambres)
