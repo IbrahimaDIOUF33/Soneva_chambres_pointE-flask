@@ -27,6 +27,10 @@ def requires_auth(f):
     return decorated
 
 
+def get_db_connection():
+    conn = psycopg2.connect(os.environ['DATABASE_URL'], cursor_factory=psycopg2.extras.RealDictCursor)
+    return conn
+
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
@@ -277,6 +281,20 @@ def historique():
     historiques = cursor.fetchall()
     conn.close()
     return render_template("historique.html", historiques=historiques)
+
+@app.route('/nettoyage/<int:id>', methods=['POST'])
+def toggle_nettoyage(id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT nettoyee FROM chambres WHERE id = %s", (id,))
+    current = cursor.fetchone()[0]
+    nouveau = not current
+
+    cursor.execute("UPDATE chambres SET nettoyee = %s WHERE id = %s", (nouveau, id))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

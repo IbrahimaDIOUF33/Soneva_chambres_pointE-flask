@@ -50,9 +50,19 @@
             <td class="actions">
                 <div class="form-rapide">
                     {% if chambre.etat == 'libre' %}
-                    <div class="form-block">
-                        <a href="{{ url_for('reserver', id=chambre.id) }}" class="action-button" style="width: 100%;">Réserver</a>
+                    
+                    <div class="action-row full-width">
+                        <a href="{{ url_for('reserver', id=chambre.id) }}" class="action-button">Réserver</a>
+
+                        <form method="POST" action="{{ url_for('toggle_nettoyage', id=chambre.id) }}">
+                            {% if chambre.nettoyee %}
+                                <button type="submit" class="action-button nettoyage-button" title="Cliquer si chambre NON nettoyée">🧽 Fait</button>
+                            {% else %}
+                                <button type="submit" class="action-button nettoyage-button" title="Cliquer si chambre nettoyée">🧼 Non fait</button>
+                            {% endif %}
+                        </form>
                     </div>
+
                     {% else %}
                     <div class="action-row full-width">
                         <button class="action-button" style="margin-right:auto;" onclick="afficherDetails({{ chambre.id }})">Détails</button>

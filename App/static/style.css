@@ -202,3 +202,14 @@ tr[style*="red"] td        { background-color: #ffcccc !important; }
 
 }
 
+
+.action-button.nettoyage-button {
+    background-color: #777;
+    font-size: 12px;
+    padding: 6px;
+    min-width: 70px;
+}
+
+.action-button.nettoyage-button:hover {
+    background-color: #555;
+}
