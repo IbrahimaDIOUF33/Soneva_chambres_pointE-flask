@@ -285,15 +285,24 @@ def historique():
 @app.route('/nettoyage/<int:id>', methods=['POST'])
 def toggle_nettoyage(id):
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     cursor.execute("SELECT nettoyee FROM chambres WHERE id = %s", (id,))
-    current = cursor.fetchone()[0]
+    result = cursor.fetchone()
+
+    if result is None:
+        conn.close()
+        flash("❌ Chambre introuvable.")
+        return redirect(url_for('index'))
+
+    current = result['nettoyee']
     nouveau = not current
 
     cursor.execute("UPDATE chambres SET nettoyee = %s WHERE id = %s", (nouveau, id))
     conn.commit()
     conn.close()
+
+    flash("✅ État de nettoyage mis à jour.")
     return redirect(url_for('index'))
 
 
